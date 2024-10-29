@@ -1,9 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
 
+const ComicsPerPage = 6; // Number of comics to display per page
+
 const ComicCardPage = () => {
   const [comics, setComics] = useState([]);
   const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const fetchComics = async () => {
@@ -25,11 +28,28 @@ const ComicCardPage = () => {
   if (error) return <p className="text-red-500">Error: {error}</p>;
   if (!comics.length) return <p className="text-white">Loading...</p>;
 
+  // Calculate total pages and slice the comics array for the current page
+  const totalPages = Math.ceil(comics.length / ComicsPerPage);
+  const startIndex = (currentPage - 1) * ComicsPerPage;
+  const currentComics = comics.slice(startIndex, startIndex + ComicsPerPage);
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
   return (
     <div className="p-4 bg-gradient-to-b from-red-700 to-black text-white font-serif">
       <h1 className="text-4xl mb-4">Marvel Comic Collection</h1>
       <div className="comic-card-container grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-        {comics.map((comic) => (
+        {currentComics.map((comic) => (
           <div
             key={comic.id}
             className="comic-card bg-white text-black rounded-lg p-3 shadow-md transition-transform transform hover:scale-105"
@@ -50,6 +70,27 @@ const ComicCardPage = () => {
             </p>
           </div>
         ))}
+      </div>
+
+      {/* Pagination Controls */}
+      <div className="flex justify-center mt-4 ">
+        <button
+          onClick={handlePrevPage}
+          disabled={currentPage === 1}
+          className="bg-blue-600 text-white px-4 py-2 rounded disabled:opacity-50"
+        >
+          Previous
+        </button>
+        <span className="self-center">
+          Page {currentPage} of {totalPages}
+        </span>
+        <button
+          onClick={handleNextPage}
+          disabled={currentPage === totalPages}
+          className="bg-blue-600 text-white px-4 py-2 rounded disabled:opacity-50"
+        >
+          Next
+        </button>
       </div>
     </div>
   );
