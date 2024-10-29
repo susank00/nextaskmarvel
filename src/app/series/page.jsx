@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 
-const SeriesPerPage = 6; // Number of series to display per page
+const SeriesPerPage = 7; // Number of series to display per page
 
 const SeriesPage = () => {
   const [series, setSeries] = useState([]);
@@ -79,7 +79,7 @@ const SeriesPage = () => {
       </div>
 
       {/* Pagination Controls */}
-      <div className="flex justify-center mt-4">
+      <div className="flex justify-center mt-4 gap-2">
         <button
           onClick={handlePrevPage}
           disabled={currentPage === 1}

@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 
-const ComicsPerPage = 6; // Number of comics to display per page
+const ComicsPerPage = 7; // Number of comics to display per page
 
 const ComicCardPage = () => {
   const [comics, setComics] = useState([]);
@@ -73,7 +73,7 @@ const ComicCardPage = () => {
       </div>
 
       {/* Pagination Controls */}
-      <div className="flex justify-center mt-4 ">
+      <div className="flex justify-center mt-4 gap-2 ">
         <button
           onClick={handlePrevPage}
           disabled={currentPage === 1}
